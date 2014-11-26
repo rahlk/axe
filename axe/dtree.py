@@ -3,13 +3,15 @@ from lib    import *
 from demos  import *
 from table import *
 from fi     import *
-from Abcd   import *
-from learn  import *
+from abcd   import *
+#from learn  import *
+from settings import *
 from dtree  import *
 
 import sys
 sys.dont_write_bytecode = True
 
+def nl(): print ""
 
 def rankedFeatures(rows,t,features=None):
   features = features if features else t.indep
@@ -22,6 +24,7 @@ def rankedFeatures(rows,t,features=None):
       key = row.cells[f.col]
       val = row.cells[klass]
       syms[key] + val
+      
       at[key] = at.get(key,[]) + [row]
     e = 0
     for val in syms.values(): 
@@ -61,6 +64,7 @@ def tdiv1(t,rows,lvl=-1,asIs=10**32,up=None,features=None,branch=[],
   return here
 
 def tdiv(tbl,rows=None,opt=The.tree):
+  print The.tree
   rows = rows or tbl._rows
   features= infogain(tbl,opt)
 #  opt.min = len(rows)**0.5
@@ -101,15 +105,16 @@ def showTdiv(n,lvl=-1):
     s=classStats(n)
     print ' '+str(int(100*s.counts[s.mode()]/len(n.rows)))+'% * '+str(len(n.rows))
 
-def dtnodes(tree):
+def dtnodes(tree, lvl=0):
   if tree:
-    yield tree
+    yield tree, lvl
     for kid in tree.kids:
-      for sub in dtnodes(kid):
-        yield sub
+     lvl1=lvl
+     for sub, lvl1 in dtnodes(kid, lvl1+1):
+        yield sub, lvl1
 
 def dtleaves(tree):
-  for node in dtnodes(tree):
+  for node,_ in dtnodes(tree):
     #print "K>", tree.kids[0].__dict__.keys()
     if not node.kids:
       yield node
@@ -138,7 +143,10 @@ def xval(tbl,m=None,n=None,opt=The.tree):
       train = clone(tbl,cells[:lo]+cells[hi:])
       test  = map(Row,cells[lo:hi])
       yield test,train
-  
+
+def last(lst):
+ return lst[-1]
+
 def apex(test,tree,opt=The.tree):
   """apex=  leaf at end of biggest (most supported) 
    branch that is selected by test in a tree"""
@@ -148,7 +156,7 @@ def apex(test,tree,opt=The.tree):
     else:
       if isinstance(span,tuple):
         lo,hi = span
-        return lo <= val < hi
+        return lo <= val <= hi # <hi
       else:
         return span == val
   def apex1(cells,tree):
@@ -255,7 +263,7 @@ def snakesAndLadders(tree,train,w):
 def tdived(file='data/diabetes.csv'):
   tbl = discreteTable(file)  
   #exit()
-  tree,_= tdiv(tbl)
+  tree= tdiv(tbl)
   showTdiv(tree)
  
  
@@ -327,5 +335,6 @@ def snl(file='data/poi-1.5D.csv',rseed=1,w=dict(_1=0,_0=1)):
   abcd4.report()
   abcd5.report()
 
+#cross()
 if __name__ == '__main__': eval(cmd())
 

@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn import linear_model
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
-from Abcd import *
+from abcd import *
 
 def trainTest(tests,trains,indep,dep):
   x1=[]; y1=[]

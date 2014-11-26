@@ -15,9 +15,10 @@ class Thing(object):
  # def __eq__(i,j)  : return i._id == j._id
   #def __neq__(i,j) : return i._id != j._id
 
-The = Thing()
+The = Thing() #Assign the class 'Thing' to a label 'The' 
 def settings(f=None):
   if f : The.__dict__[f.func_name[:-4]] = f() 
+  # __dict__ returns the attributes of the function.  
   else : rprintln(The)
   return f
 
@@ -67,9 +68,9 @@ def readerings(): return Thing(
 
 @settings
 def treeings(**d): return Thing(
-  min=4,
+  min=5,
   infoPrune=0.33,
-  variancePrune=True,
+  variancePrune=False,
   debug=False,
   m=5,
   n=5,
@@ -77,7 +78,7 @@ def treeings(**d): return Thing(
   better  = lambda x: x.better,
   worse  = lambda x: x.worse,
   cells = lambda x: x.cells,
-  prune=True).override(d)
+  prune=False).override(d)
 
 @settings
 def distings(**d): return Thing(

@@ -3,14 +3,15 @@ from lib    import *
 from demos  import *
 from counts import *
 from fi     import *
-
+import re  
 import sys
+from settings import *
 sys.dont_write_bytecode = True
 
 def rows(file, 
           sep= The.reader.sep,
           bad= The.reader.bad):
-  """Read comma-eperated rows that might be split 
+  """Read comma-seperated rows that might be split 
   over many lines.  Finds strings that can compile 
   to nums.  Kills comments and white space."""
   n,kept = 0,""
@@ -33,7 +34,7 @@ def row(file,skip= The.reader.skip):
 
 ## Read Headers and Rows
 def table(source, rows = True, contents = row):
-  t = table0(source)
+  t = table0(source) ## How does 'Thing' work?
   for n,cells in contents(source):  
     if n == 0 : head(cells,t) 
     else      : body(cells,t,rows) 
@@ -53,7 +54,7 @@ def table0(source):
 
 def head(cells,t,numc=The.reader.numc):
   for col,cell in enumerate(cells):
-    this   = Num if numc in cell else Sym
+    this   = Num if numc in cell else Sym # Check if the column is a num or a sym.
     this.rank = 0
     header = this()
     header.col, header.name = col,cell
@@ -73,7 +74,7 @@ def body(cells,t,keep=True):
       header + cell
   if keep: 
     new = Row(cells)
-    t._rows += [new]
+    t._rows += [new] 
 
 class Row(Thing):
   def __init__(i,cells):
@@ -92,13 +93,14 @@ def discreteTable(f,contents=lambda x: row(x)):
 
 def discreteNums(tbl,therows):
   for num in tbl.indep:
+   if not num in tbl.depen:
     if isinstance(num,Num):
       for cut in  ediv(therows,
                        num=lambda x:x[num.col],
                        sym=lambda x:x[tbl.klass[0].col]):
-      #print num.name, cut.at
         for row in cut._has:  
           row[num.col] = cut.range
+          #print(cut.val)
   return clone(tbl, discrete=True, rows=therows)
 
 
@@ -116,15 +118,15 @@ def clone(tbl1,rows=[],discrete=False,keepSelections=False) :
 
 
 @demo
-def tabled(f='data/weather.csv'):
+def tabled(f='data/weather2.csv'):
   t=table(f)
   for x in  t.indep: rprintln(x)
-  #rprintln(t)
+  rprintln(t)
 
 @demo
-def tableCopied(f='data/weather.csv'):
+def tableCopied(f='data/weather2.csv'):
   t0=table(f)
-  t1=copyTable(t0)
+  t1=clone(t0)
   rprintln([t0.nums,t1.nums]); 
 
 if __name__ == '__main__': eval(cmd())
