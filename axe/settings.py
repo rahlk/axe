@@ -21,7 +21,7 @@ The = Thing() #Assign the class 'Thing' to a label 'The'
 def settings(f=None):
   if f : The.__dict__[f.func_name[:-4]] = f() 
   # __dict__ returns the attributes of the function.  
-  else : rprintln(The)
+  else : pass #rprintln(The)
   return f
 
 @settings
@@ -70,9 +70,9 @@ def readerings(): return Thing(
 
 @settings
 def treeings(**d): return Thing(
-  min=5,
-  infoPrune=0.33,
-  variancePrune=False,
+  min=2,
+  infoPrune=0.2,
+  variancePrune=True,
   debug=False,
   m=5,
   n=5,

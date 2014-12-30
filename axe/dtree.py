@@ -7,11 +7,12 @@ from abcd   import *
 #from learn  import *
 from settings import *
 from dtree  import *
-
+import numpy as np
 import sys
 sys.dont_write_bytecode = True
 
 def nl(): print ""
+
 
 def rankedFeatures(rows,t,features=None):
   features = features if features else t.indep
@@ -24,7 +25,6 @@ def rankedFeatures(rows,t,features=None):
       key = row.cells[f.col]
       val = row.cells[klass]
       syms[key] + val
-      
       at[key] = at.get(key,[]) + [row]
     e = 0
     for val in syms.values(): 
@@ -38,7 +38,13 @@ def infogain(t,opt=The.tree):
   for f in t.headers:
     f.selected=False
   lst = rankedFeatures(t._rows,t)
-  n = int(len(lst)*opt.infoPrune)
+  tmp=[l[0] for l in lst]; 
+  plot(range(len((tmp))), (tmp), title = '', xlabel = 'features'
+       , ylabel = 'Entropy', fname = 'Entropy') 
+  plot(range(len(np.diff(tmp))), np.diff(tmp), title = '', xlabel = 'features'
+       , ylabel = 'Gradient', fname = 'Gradient') 
+  n = 3
+  #n = int(len(lst)*opt.infoPrune)
   n = max(n,1)
   for _,f,_,_ in lst[:n]:
     f.selected=True
@@ -46,7 +52,8 @@ def infogain(t,opt=The.tree):
 
 def tdiv1(t,rows,lvl=-1,asIs=10**32,up=None,features=None,branch=[],
                   f=None,val=None,opt=None):
-  here = Thing(t=t,kids=[],f=f,val=val,up=up,lvl=lvl,rows=rows,modes={},branch=branch)
+  here = Thing(t=t,kids=[],f=f,val=val,up=up,lvl=lvl,rows=rows,modes={},
+               branch=branch)
   if f and opt.debug: 
     print ('|.. ' * lvl) + f.name ,"=",val,len(rows)
   here.mode = classStats(here).mode()
@@ -60,7 +67,8 @@ def tdiv1(t,rows,lvl=-1,asIs=10**32,up=None,features=None,branch=[],
         continue
     if opt.min <= len(someRows) < len(rows) :
       here.kids += [tdiv1(t,someRows,lvl=lvl+1,asIs=toBe,features=features,
-                          up=here,f=splitter,val=key,branch=branch + [(splitter,key)],opt=opt)]
+                          up=here,f=splitter,
+                          val=key,branch=branch + [(splitter,key)],opt=opt)]
   return here
 
 def tdiv(tbl,rows=None,opt=The.tree):
@@ -90,8 +98,8 @@ def prune(n):
       prune(kid)
 
 def classStats(n):
-  klass=lambda x: x.cells[n.t.klass[0].col]
-  return Sym(klass(x) for x in n.rows)
+  depen=lambda x: x.cells[n.t.klass[0].col]
+  return Sym(depen(x) for x in n.rows)
   
 def showTdiv(n,lvl=-1):  
   if n.f:
@@ -156,7 +164,7 @@ def apex(test,tree,opt=The.tree):
     else:
       if isinstance(span,tuple):
         lo,hi = span
-        return lo <= val <= hi # <hi
+        return lo <= val < hi # <hi
       else:
         return span == val
   def apex1(cells,tree):
@@ -335,6 +343,16 @@ def snl(file='data/poi-1.5D.csv',rseed=1,w=dict(_1=0,_0=1)):
   abcd4.report()
   abcd5.report()
 
+def plot(x,y, title, xlabel, ylabel, fname):
+ import matplotlib.mlab as mlab
+ import matplotlib.pyplot as plt
+ plt.plot(x,y)
+ plt.xlabel(xlabel)
+ plt.ylabel(ylabel)
+ plt.title(title)
+ plt.subplots_adjust(left = 0.15)
+ plt.savefig(fname+'.jpg')
+ plt.close()
 #cross()
 if __name__ == '__main__': eval(cmd())
 
