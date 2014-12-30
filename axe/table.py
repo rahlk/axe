@@ -34,7 +34,7 @@ def row(file,skip= The.reader.skip):
 
 ## Read Headers and Rows
 def table(source, rows = True, contents = row):
-  t = table0(source) ## How does 'Thing' work?
+  t = table0(source) 
   for n,cells in contents(source):  
     if n == 0 : head(cells,t) 
     else      : body(cells,t,rows) 
@@ -113,7 +113,7 @@ def clone(tbl1,rows=[],discrete=False,keepSelections=False) :
   if keepSelections:
     for h in tbl1.headers:
       tbl2.headers[h.col].selected = h.selected
-  for cells in rows:  body(cells,tbl2,True)
+  for cells in rows:  body(cells, tbl2, True)
   return tbl2
 
 

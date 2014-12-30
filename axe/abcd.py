@@ -53,7 +53,7 @@ class Abcd:
          '{10:3d} {11:3d} {12:3d} {13:10s}').format(i.db,
           i.rx,  n(b + d), n(a), n(b),n(c), n(d), 
           p(acc), p(pd), p(pf), p(prec), p(f), p(g),x)
-      
+      return p(g)
       #print x,p(pd),p(prec)
 
 def _Abcd():
@@ -75,8 +75,8 @@ def _runAbcd(train=None, test=None, verbose=False):
   for actual, predicted in zip(train,test):
     abcd.tell(actual,predicted)
   abcd.header(verbose)
-  abcd.ask(verbose)
-  return []
+  return abcd.ask(verbose)
+  
 
 """
 output:
