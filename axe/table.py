@@ -54,7 +54,7 @@ def table0(source):
 
 def head(cells,t,numc=The.reader.numc):
   for col,cell in enumerate(cells):
-    this   = Num if numc in cell else Sym # Check if the column is a num or a sym.
+    this   = Num if numc in cell else Sym 
     this.rank = 0
     header = this()
     header.col, header.name = col,cell
@@ -100,7 +100,6 @@ def discreteNums(tbl,therows):
                        sym=lambda x:x[tbl.klass[0].col]):
         for row in cut._has:  
           row[num.col] = cut.range
-          #print(cut.val)
   return clone(tbl, discrete=True, rows=therows)
 
 

@@ -64,7 +64,7 @@ def tdiv1(t,rows,lvl=-1,asIs=10**32,up=None,features=None,branch=[],
   return here
 
 def tdiv(tbl,rows=None,opt=The.tree):
-  print The.tree
+  opt = The.tree if not opt else opt
   rows = rows or tbl._rows
   features= infogain(tbl,opt)
 #  opt.min = len(rows)**0.5

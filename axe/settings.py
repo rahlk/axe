@@ -1,6 +1,8 @@
-import sys
-sys.dont_write_bytecode = True 
 from demos import *
+import sys
+
+
+sys.dont_write_bytecode = True 
 
 class Thing(object):
   id = -1

@@ -27,15 +27,16 @@ class Abcd:
     i.known[x] += 1
     if (i.known[x] == 1):
       i.a[x] = i.yes + i.no
-  def header(i, verbose=True):
-   print "#",('{0:20s} {1:11s}  {2:4s}  {3:4s} {4:4s} '+ \
-					 '{5:4s}{6:4s} {7:3s} {8:3s} {9:3s} '+ \
-           '{10:3s} {11:3s}{12:3s}{13:10s}').format(
-      "db", "rx", 
-     "n", "a","b","c","d","acc","pd","pf","prec",
-      "f","g","class")
-   print '-'*100
-  def ask(i, verbose=True):
+  def header(i, verbose):
+   if verbose:
+    print "#",('{0:20s} {1:11s}  {2:4s}  {3:4s} {4:4s} '+ \
+ 					 '{5:4s}{6:4s} {7:3s} {8:3s} {9:3s} '+ \
+            '{10:3s} {11:3s}{12:3s}{13:10s}').format(
+       "db", "rx", 
+      "n", "a","b","c","d","acc","pd","pf","prec",
+       "f","g","class")
+    print '-'*100
+  def ask(i, verbose):
     def p(y) : return int(100*y + 0.5)
     def n(y) : return int(y)
     pd = pf = pn = prec = g = f = acc = 0
@@ -48,12 +49,13 @@ class Abcd:
       if (1-pf+pd): g    = 2*(1-pf)*pd / (1-pf+pd)
       if (prec+pd): f    = 2*prec*pd/(prec+pd)
       if (i.yes + i.no): acc= i.yes/(i.yes+i.no)
-      print "#",('{0:20s} {1:10s} {2:4d} {3:4d} {4:4d} '+ \
-    			'{5:4d} {6:4d} {7:4d} {8:3d} {9:3d} '+ \
-         '{10:3d} {11:3d} {12:3d} {13:10s}').format(i.db,
-          i.rx,  n(b + d), n(a), n(b),n(c), n(d), 
-          p(acc), p(pd), p(pf), p(prec), p(f), p(g),x)
-      
+      if verbose:
+       print "#",('{0:20s} {1:10s} {2:4d} {3:4d} {4:4d} '+ \
+     			'{5:4d} {6:4d} {7:4d} {8:3d} {9:3d} '+ \
+          '{10:3d} {11:3d} {12:3d} {13:10s}').format(i.db,
+           i.rx,  n(b + d), n(a), n(b),n(c), n(d), 
+           p(acc), p(pd), p(pf), p(prec), p(f), p(g),x)
+      return p(g)
       #print x,p(pd),p(prec)
 
 def _Abcd():
@@ -75,8 +77,7 @@ def _runAbcd(train=None, test=None, verbose=False):
   for actual, predicted in zip(train,test):
     abcd.tell(actual,predicted)
   abcd.header(verbose)
-  abcd.ask(verbose)
-  return []
+  return abcd.ask(verbose)
 
 """
 output:
