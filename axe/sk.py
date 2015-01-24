@@ -471,6 +471,15 @@ Driver for the demos:
 """
 def rdivDemo(data, isLatex = True):
   if isLatex:
+    print('''\documentclass{article}
+    \usepackage{colortbl} % not sure if needed
+    \usepackage[table]{xcolor} % not sure if needed
+    %%%% needed %%%
+    \usepackage{picture}
+    \newcommand{\quart}[4]{\begin{picture}(100,6)%1
+    {\color{black}\put(#3,3){\circle*{4}}\put(#1,3){\line(1,0){#2}}}\end{picture}}
+    \begin{document}
+    ''')
     def z(x):
         return int(100 * (x - lo) / (hi - lo + 0.00001))
     data = map(lambda lst:Num(lst[0], lst[1:]),
@@ -497,6 +506,10 @@ def rdivDemo(data, isLatex = True):
           (x.rank + 1, x.name, q2, q3 - q1, z(q1), z(q3) - z(q1), z(q2), z(100))
       last = x.rank
     print "\\end{tabular}}"
+    print('''
+    \end{document}
+    ''')
+
   else:
     def z(x):
       return int(100 * (x - lo) / (hi - lo + 0.00001))
