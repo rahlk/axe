@@ -469,26 +469,54 @@ def leftRight(parts, epsilon = 0.01):
 Driver for the demos:
 
 """
-def rdivDemo(data):
-  def z(x):
-    return int(100 * (x - lo) / (hi - lo + 0.00001))
-  data = map(lambda lst:Num(lst[0], lst[1:]),
-             data)
-  print ""
-  ranks = []
-  for x in scottknott(data, useA12 = True):
-    ranks += [(x.rank, x.median(), x)]
-  all = []
-  for _, __, x in sorted(ranks): all += x.all
-  all = sorted(all)
-  lo, hi = all[0], all[-1]
-  line = "----------------------------------------------------"
-  last = None
-  print  ('%4s , %12s ,    %s   , %4s ' % \
-               ('rank', 'name', 'med', 'iqr')) + "\n" + line
-  for _, __, x in sorted(ranks):
-    q1, q2, q3 = x.quartiles()
-    print  ('%4s , %12s ,    %0.2F  ,  %0.2E ' % \
-                 (x.rank + 1, x.name, x.median(), x.spread())) + \
-              xtile(x.all, lo = lo, hi = hi, width = 30)
-    last = x.rank
+def rdivDemo(data, isLatex = True):
+  if isLatex:
+    def z(x):
+        return int(100 * (x - lo) / (hi - lo + 0.00001))
+    data = map(lambda lst:Num(lst[0], lst[1:]),
+               data)
+    print ""
+    ranks = []
+    for x in scottknott(data, useA12 = True):
+      ranks += [(x.rank, x.median(), x)]
+    all = []
+    for _, __, x in sorted(ranks):
+      all += x.quartiles()
+    all = sorted(all)
+    lo, hi = all[0], all[-1]
+    print "{\\scriptsize \\begin{tabular}{l@{~~~}l@{~~~}r@{~~~}r@{~~~}c}"
+    print "\\arrayrulecolor{darkgray}"
+    print '\\rowcolor[gray]{.9}  rank & treatment & median & IQR & \\\\'  # min= %s, max= %s\\\\' % (int(lo),int(hi))
+    last = None
+    for _, __, x in sorted(ranks):
+      q1, q2, q3 = x.quartiles()
+      pre = ""
+      if not last == None and not last == x.rank:
+        pre = "\\hline"
+      print pre, '%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s} \\\\' % \
+          (x.rank + 1, x.name, q2, q3 - q1, z(q1), z(q3) - z(q1), z(q2), z(100))
+      last = x.rank
+    print "\\end{tabular}}"
+  else:
+    def z(x):
+      return int(100 * (x - lo) / (hi - lo + 0.00001))
+    data = map(lambda lst:Num(lst[0], lst[1:]),
+               data)
+    print ""
+    ranks = []
+    for x in scottknott(data, useA12 = True):
+      ranks += [(x.rank, x.median(), x)]
+    all = []
+    for _, __, x in sorted(ranks): all += x.all
+    all = sorted(all)
+    lo, hi = all[0], all[-1]
+    line = "----------------------------------------------------"
+    last = None
+    print  ('%4s , %12s ,    %s   , %4s ' % \
+                 ('rank', 'name', 'med', 'iqr')) + "\n" + line
+    for _, __, x in sorted(ranks):
+      q1, q2, q3 = x.quartiles()
+      print  ('%4s , %12s ,    %0.2F  ,  %0.2E ' % \
+                   (x.rank + 1, x.name, x.median(), x.spread())) + \
+                xtile(x.all, lo = lo, hi = hi, width = 30)
+      last = x.rank
