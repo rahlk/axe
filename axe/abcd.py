@@ -35,7 +35,7 @@ class Abcd:
      "n", "a", "b", "c", "d", "acc", "pd", "pf", "prec",
       "f", "g", "class")
     print '-' * 100
-  def ask(i):
+  def ask(i, raw = True):
     def p(y) : return int(100 * y + 0.5)
     def n(y) : return int(y)
     pd = pf = pn = prec = g = f = acc = 0
@@ -53,7 +53,7 @@ class Abcd:
          '{10:3d} {11:3d} {12:3d}           {13:30s}').format(i.db,
           i.rx, n(b + d), n(a), n(b), n(c), n(d),
           p(acc), p(pd), p(pf), p(prec), p(f), p(g), str(x) + ' Bugs')
-      # print x,p(pd),p(prec)
+      return [p(acc), p(pd), p(pf), p(prec), p(f), p(g)]
 
 def _Abcd(before = None, after = None):
   abcd = Abcd(db = 'Actual', rx = 'Predicted')
@@ -63,7 +63,7 @@ def _Abcd(before = None, after = None):
   for actual, predicted in zip(train, test):
     abcd.tell(actual, predicted)
   abcd.header()
-  abcd.ask()
+  return abcd.ask()
 
 """
 output:
