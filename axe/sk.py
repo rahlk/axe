@@ -64,9 +64,9 @@ def pairs(lst):
     last = i
 
 def xtile(lst, lo = 0, hi = 1, width = 50,
-             chops = [0.1 , 0.3, 0.5, 0.7, 0.9],
-             marks = ["-" , " ", " ", "-", " "],
-             bar = "|", star = "*", show = " %0.2F"):
+             chops = [0.25, 0.5, 0.75],
+             marks = ["-" , " ", "-"],
+             bar = "|", star = "*", show = " %d"):
   """The function _xtile_ takes a list of (possibly)
   unsorted numbers and presents them as a horizontal
   xtile chart (in ascii format). The default is a
@@ -529,7 +529,7 @@ def rdivDemo(data, isLatex = True):
                  ('rank', 'name', 'med', 'iqr')) + "\n" + line
     for _, __, x in sorted(ranks):
       q1, q2, q3 = x.quartiles()
-      print  ('%4s , %12s ,    %0.2F  ,  %0.2E ' % \
+      print  ('%4s , %12s ,    %d  ,  %d ' % \
                    (x.rank + 1, x.name, x.median(), x.spread())) + \
                 xtile(x.all, lo = lo, hi = hi, width = 30)
       last = x.rank
