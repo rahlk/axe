@@ -469,7 +469,7 @@ def leftRight(parts, epsilon = 0.01):
 Driver for the demos:
 
 """
-def rdivDemo(data, isLatex = True):
+def rdivDemo(data, isLatex = False):
   if isLatex:
     print('''\documentclass{article}
     \usepackage{colortbl} % not sure if needed

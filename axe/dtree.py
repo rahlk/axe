@@ -39,12 +39,7 @@ def infogain(t, opt = The.tree):
     f.selected = False
   lst = rankedFeatures(t._rows, t)
   tmp = [l[0] for l in lst];
-  plot(range(len((tmp))), (tmp), title = '', xlabel = 'features'
-       , ylabel = 'Entropy', fname = 'Entropy')
-  plot(range(len(np.diff(tmp))), np.diff(tmp), title = '', xlabel = 'features'
-       , ylabel = 'Gradient', fname = 'Gradient')
-  n = int((len(lst)) ** 0.5)
-  # n = int(len(lst)*opt.infoPrune)
+  n = int(len(lst)*opt.infoPrune)
   n = max(n, 1)
   for _, f, _, _ in lst[:n]:
     f.selected = True
