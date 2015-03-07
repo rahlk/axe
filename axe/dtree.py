@@ -39,7 +39,7 @@ def infogain(t, opt = The.tree):
     f.selected = False
   lst = rankedFeatures(t._rows, t)
   tmp = [l[0] for l in lst];
-  n = int(len(lst)*opt.infoPrune)
+  n = int(len(lst) * opt.infoPrune)
   n = max(n, 1)
   for _, f, _, _ in lst[:n]:
     f.selected = True
