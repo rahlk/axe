@@ -529,7 +529,7 @@ def rdivDemo(data, isLatex = False):
                  ('rank', 'name', 'med', 'iqr')) + "\n" + line
     for _, __, x in sorted(ranks):
       q1, q2, q3 = x.quartiles()
-      print  ('%4s , %12s ,    %d  ,  %d ' % \
+      print  ('%4s , %12s ,    %0.2f  ,  %0.2f ' % \
                    (x.rank + 1, x.name, x.median(), x.spread())) + \
-                xtile(x.all, lo = lo, hi = hi, width = 30)
+                xtile(x.all, lo = lo, hi = hi, width = 30, show = '%0.2f')
       last = x.rank
