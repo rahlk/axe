@@ -79,18 +79,11 @@ def pairs(lst):
     yield last, i
     last = i
 
-<<<<<<< HEAD
 
 def xtile(lst, lo=0, hi=1, width=50,
           chops=[0.25, 0.5, 0.75],
           marks=["-", " ", "-"],
           bar="|", star="*", show=" %d"):
-=======
-def xtile(lst, lo = 0, hi = 1, width = 50,
-             chops = [0.25, 0.5, 0.75],
-             marks = ["-" , " ", "-"],
-             bar = "|", star = "*", show = " %0.2f"):
->>>>>>> branch 'master' of https://github.com/rahlk/axe
   """The function _xtile_ takes a list of (possibly)
   unsorted numbers and presents them as a horizontal
   xtile chart (in ascii format). The default is a
@@ -558,12 +551,8 @@ Driver for the demos:
 
 def rdivDemo(data, isLatex=False):
   if isLatex:
-<<<<<<< HEAD
     print(r'''\documentclass{article}
     \usepackage(fullpage)
-=======
-    print(r"""\documentclass{article}
->>>>>>> branch 'master' of https://github.com/rahlk/axe
     \usepackage{colortbl} % not sure if needed
     \usepackage[table]{xcolor} % not sure if needed
     %%%% needed %%%
@@ -571,12 +560,8 @@ def rdivDemo(data, isLatex=False):
     \newcommand{\quart}[4]{\begin{picture}(100,6)%1
     {\color{black}\put(#3,3){\circle*{4}}\put(#1,3){\line(1,0){#2}}}\end{picture}}
     \begin{document}
-<<<<<<< HEAD
     ''')
 
-=======
-    """)
->>>>>>> branch 'master' of https://github.com/rahlk/axe
     def z(x):
       return int(100 * (x - lo) / (hi - lo + 0.00001))
     data = map(lambda lst: Num(lst[0], lst[1:]),
@@ -603,11 +588,7 @@ def rdivDemo(data, isLatex=False):
       if not last is None and not last == x.rank:
         pre = "\\hline"
       print pre, '%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s} \\\\' % \
-<<<<<<< HEAD
           (x.rank + 1, x.name, q2 / 100, (q3 - q1) / 100, z(q1), z(q3) - z(q1), z(q2), z(100))
-=======
-          (x.rank + 1, x.name, float(q2/100), float((q3 - q1)/100), z(q1), z(q3) - z(q1), z(q2), z(100))
->>>>>>> branch 'master' of https://github.com/rahlk/axe
       last = x.rank
     print "\\end{tabular}}"
     print "end{table}}"
@@ -635,13 +616,7 @@ def rdivDemo(data, isLatex=False):
            ('rank', 'name', 'med', 'iqr')) + "\n" + line
     for _, __, x in sorted(ranks):
       q1, q2, q3 = x.quartiles()
-<<<<<<< HEAD
       print ('%4s , %12s ,    %0.2f  ,  %0.2f ' %
              (x.rank + 1, x.name, x.median(), x.spread())) + \
           xtile(x.all, lo=lo, hi=hi, width=30, show='%0.2f')
-=======
-      print  ('%4s , %12s ,    %0.2f  ,  %0.2f ' % \
-                   (x.rank + 1, x.name, x.median(), x.spread())) + \
-                xtile(x.all, lo = lo, hi = hi, width = 30)
->>>>>>> branch 'master' of https://github.com/rahlk/axe
       last = x.rank
