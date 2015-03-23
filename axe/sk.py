@@ -576,7 +576,7 @@ def rdivDemo(data, isLatex=False):
     print "{\\normalsize \\begin{tabular}{|l@{~~~}|l@{~~~}|r@{~~~}|r@{~~~}|c|}"
     print "\hline"
     # min= %s, max= %s\\\\' % (int(lo),int(hi))
-    print 'Rank & Treatment & Median & IQR & \\\\'
+    print r'\textbf{Rank} & \textbf{Treatment} & \textbf{Median} & \textbf{IQR} & \\\hline'
     last = None
     for _, __, x in sorted(ranks):
       q1, q2, q3 = x.quartiles()
@@ -593,10 +593,7 @@ def rdivDemo(data, isLatex=False):
               z(q2),
               z(100))
       last = x.rank
-#     print "\\end{tabular}}"
-#     print('''
-#     \end{document}
-#     ''')
+    print r"\hline \end{tabular}}"
 
   else:
     def z(x):
