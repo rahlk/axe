@@ -577,6 +577,7 @@ def rdivDemo(data, isLatex=False):
     print "\hline"
     # min= %s, max= %s\\\\' % (int(lo),int(hi))
     print r'Rank & Treatment & Median & IQR & \\\hline'
+    print r'\textbf{Rank} & \textbf{Treatment} & \textbf{Median} & \textbf{IQR} & \bigstrut\\\hline'
     last = None
     for _, __, x in sorted(ranks):
       q1, q2, q3 = x.quartiles()
@@ -597,7 +598,6 @@ def rdivDemo(data, isLatex=False):
 #     print('''
 #     \end{document}
 #     ''')
-
   else:
     def z(x):
       return int(100 * (x - lo) / (hi - lo + 0.00001))
