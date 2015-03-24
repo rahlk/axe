@@ -576,7 +576,6 @@ def rdivDemo(data, isLatex=False):
     print "{\\normalsize \\begin{tabular}{|l@{~~~}|l@{~~~}|r@{~~~}|r@{~~~}|c|}"
     print "\hline"
     # min= %s, max= %s\\\\' % (int(lo),int(hi))
-    print r'Rank & Treatment & Median & IQR & \\\hline'
     print r'\textbf{Rank} & \textbf{Treatment} & \textbf{Median} & \textbf{IQR} & \bigstrut\\\hline'
     last = None
     for _, __, x in sorted(ranks):
@@ -584,7 +583,7 @@ def rdivDemo(data, isLatex=False):
       pre = ""
       if not last is None and not last == x.rank:
         pre = "\\hline"
-      print pre, '%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s} \\\\' % \
+      print pre, r'%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s} \bigstrut\\' % \
           (x.rank + 1,
            x.name,
            float(q2 / 100),
