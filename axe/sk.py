@@ -594,6 +594,7 @@ def rdivDemo(data, isLatex=False):
               z(100))
       last = x.rank
     print r"\hline \end{tabular}}"
+    return ranks
 #     print('''
 #     \end{document}
 #     ''')
@@ -621,3 +622,4 @@ def rdivDemo(data, isLatex=False):
              (x.rank + 1, x.name, x.median(), x.spread())) + \
           xtile(x.all, lo=lo, hi=hi, width=30)
       last = x.rank
+    return ranks
