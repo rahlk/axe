@@ -561,7 +561,7 @@ def rdivDemo(data, isLatex=False):
     #     \begin{document}
     #     """)
     def z(x):
-      return int(100 * (x - lo) / (hi - lo + 0.00001))
+      return int(50 * (x - lo) / (hi - lo + 0.00001))
     data = map(lambda lst: Num(lst[0], lst[1:]),
                data)
     print ""
@@ -576,14 +576,14 @@ def rdivDemo(data, isLatex=False):
     print "{\\tiny \\begin{tabulary}{\linewidth}{|J|J|J|J|J|}"
     print "\hline"
     # min= %s, max= %s\\\\' % (int(lo),int(hi))
-    print r'\textbf{Rank} & \textbf{Treatment} & \textbf{Median} & \textbf{IQR} & \bigstrut\\\hline'
+    print r'\textbf{Rank} & \textbf{Treatment} & \textbf{Median} & \textbf{IQR} & \\\hline'
     last = None
     for _, __, x in sorted(ranks):
       q1, q2, q3 = x.quartiles()
       pre = ""
       if not last is None and not last == x.rank:
         pre = "\\hline"
-      print pre, r'%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s} \bigstrut\\' % \
+      print pre, r'%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s} \\' % \
           (x.rank + 1,
            x.name,
            float(q2 / 100),
