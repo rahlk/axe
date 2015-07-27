@@ -70,7 +70,7 @@ def readerings(): return Thing(
 
 @settings
 def treeings(**d): return Thing(
-  min=2,
+  min=1,
   infoPrune=1,
   variancePrune=True,
   debug=False,
@@ -80,7 +80,7 @@ def treeings(**d): return Thing(
   better=lambda x: x.better,
   worse=lambda x: x.worse,
   cells=lambda x: x.cells,
-  prune=False).override(d)
+  prune=True).override(d)
 
 @settings
 def distings(**d): return Thing(

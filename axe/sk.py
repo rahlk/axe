@@ -561,11 +561,7 @@ def rdivDemo(data, isLatex=False):
     #     \begin{document}
     #     """)
     def z(x):
-<<<<<<< HEAD
-      return int(75 * (x - lo) / (hi - lo + 0.00001))
-=======
       return int(50 * (x - lo) / (hi - lo + 0.00001))
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
     data = map(lambda lst: Num(lst[0], lst[1:]),
                data)
     print ""
@@ -580,22 +576,14 @@ def rdivDemo(data, isLatex=False):
     print r'{\scriptsize \begin{tabular}{l@{~~~}l@{~~~}r@{~~~}r@{~~~}c}'
     print r'\arrayrulecolor{lightgray}'
     # min= %s, max= %s\\\\' % (int(lo),int(hi))
-<<<<<<< HEAD
-    print r'\rowcolor[gray]{.9} \textbf{Rank} & \textbf{Treatment} & \textbf{Median} & \textbf{IQR} & \\'
-=======
     print r'\textbf{Rank} & \textbf{Treatment} & \textbf{Median} & \textbf{IQR} & \\\hline'
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
     last = None
     for _, __, x in sorted(ranks):
       q1, q2, q3 = x.quartiles()
       pre = ""
       if not last is None and not last == x.rank:
         pre = "\\hline"
-<<<<<<< HEAD
-      print pre, r'%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s}\\' % \
-=======
       print pre, r'%2s & %12s &    %s  &  %s & \quart{%s}{%s}{%s}{%s} \\' % \
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
           (x.rank + 1,
            x.name,
            float(q2 / 100),

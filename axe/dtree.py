@@ -36,33 +36,23 @@ def rankedFeatures(rows, t, features=None):
     return e, f, syms, at
   return sorted(ranked(f) for f in features)
 
-<<<<<<< HEAD
-def infogain(t, opt=The.tree):
-  def norm(x): return (x - lo) / (hi - lo + 0.0001)
-=======
 
 def infogain(t, opt=The.tree):
   def norm(x):
     return (x - lo) / (hi - lo + 0.0001)
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
   for f in t.headers:
     f.selected = False
   lst = rankedFeatures(t._rows, t)
   tmp = [l[0] for l in lst]
-  n = int(len(lst) * opt.infoPrune)
+  n = int(len(lst))
   n = max(n, 1)
   for _, f, _, _ in lst[:n]:
     f.selected = True
   return [f for e, f, syms, at in lst[:n]]
 
-<<<<<<< HEAD
-def tdiv1(t, rows, lvl=-1, asIs=10 ** 32, up=None, features=None, branch=[],
-                  f=None, val=None, opt=None):
-=======
 
 def tdiv1(t, rows, lvl=-1, asIs=10 ** 32, up=None, features=None, branch=[],
           f=None, val=None, opt=None):
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
   here = Thing(t=t, kids=[], f=f, val=val, up=up, lvl=lvl, rows=rows, modes={},
                branch=branch)
   if f and opt.debug:
@@ -76,7 +66,6 @@ def tdiv1(t, rows, lvl=-1, asIs=10 ** 32, up=None, features=None, branch=[],
   for key in sorted(splits.keys()):
     someRows = splits[key]
     toBe = syms[key].ent()
-<<<<<<< HEAD
     if opt.variancePrune and lvl > 1 and toBe >= asIs:
         continue
     if opt.min <= len(someRows) < len(rows) :
@@ -85,25 +74,6 @@ def tdiv1(t, rows, lvl=-1, asIs=10 ** 32, up=None, features=None, branch=[],
                           val=key, branch=branch + [(splitter, key)], opt=opt)]
   return here
 
-=======
-#     if opt.variancePrune and lvl > 1 and toBe >= asIs:
-#         continue
-    if opt.min <= len(someRows) < len(rows):
-      here.kids += [tdiv1(t,
-                          someRows,
-                          lvl=lvl + 1,
-                          asIs=toBe,
-                          features=features,
-                          up=here,
-                          f=splitter,
-                          val=key,
-                          branch=branch + [(splitter,
-                                            key)],
-                          opt=opt)]
-  return here
-
-
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
 def tdiv(tbl, rows=None, opt=The.tree):
   opt = The.tree if not opt else opt
   rows = rows or tbl._rows
@@ -140,10 +110,6 @@ def classStats(n):
   depen = lambda x: x.cells[n.t.klass[0].col]
   return Sym(depen(x) for x in n.rows)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
 def showTdiv(n, lvl=-1):
   if n.f:
     say(('|..' * lvl) + str(n.f.name) + "=" + str(n.val) +
@@ -156,10 +122,6 @@ def showTdiv(n, lvl=-1):
     s = classStats(n)
     print ' ' + str(int(100 * s.counts[s.mode()] / len(n.rows))) + '% * ' + str(len(n.rows))
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
 def dtnodes(tree, lvl=0):
   if tree:
     yield tree, lvl
@@ -233,17 +195,6 @@ def apex(test, tree, opt=The.tree):
             for leaf in apex1(opt.cells(test), tree)]
   return second(last(sorted(leaves)))
 
-<<<<<<< HEAD
-def classify(test, tree, opt=The.tree):
-  return apex(test, tree, opt=The.tree).mode
-
-def improve(test, tree, opt=The.tree) :
-  return change(test, tree, opt.better, opt)
-
-def degrade(test, tree, opt=The.tree) :
-  return change(test, tree, opt.worse, opt)
-
-=======
 
 def classify(test, tree, opt=The.tree):
   return apex(test, tree, opt=The.tree).mode
@@ -257,7 +208,6 @@ def degrade(test, tree, opt=The.tree):
   return change(test, tree, opt.worse, opt)
 
 
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
 def change(test, tree, how, opt=The.tree):
   leaf1 = apex(test, tree, opt)
   new = old = leaf.mode
@@ -268,14 +218,6 @@ def change(test, tree, how, opt=The.tree):
     new = classify(Row(copy), tree, opt)
   return old, new
 
-<<<<<<< HEAD
-def jumpUp(test, tree, opt=The.tree):
-  return jump(test, tree, opt.better, opt)
-
-def jumpDown(test, tree, opt=The.tree):
-  return jump(test, tree, opt.worse, opt)
-
-=======
 
 def jumpUp(test, tree, opt=The.tree):
   return jump(test, tree, opt.better, opt)
@@ -285,7 +227,6 @@ def jumpDown(test, tree, opt=The.tree):
   return jump(test, tree, opt.worse, opt)
 
 
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
 def jump(test, tree, how, opt=The.tree):
   toBe = asIs = apex(test, tree, opt)
   if how(asIs):
@@ -295,10 +236,6 @@ def jump(test, tree, how, opt=The.tree):
     toBe = apex(Row(copy), tree, opt)
   return asIs, toBe
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
 def rows1(row, tbl, cells=lambda r: r.cells):
   print ""
   for h, cell in zip(tbl.headers, cells(row)):
@@ -323,11 +260,7 @@ def snakesAndLadders(tree, train, w):
     return l
   for node in dtnodes(tree):
     node.tbl = clone(train,
-<<<<<<< HEAD
-                     rows=map(lambda x:x.cells, node.rows),
-=======
                      rows=map(lambda x: x.cells, node.rows),
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
                      keepSelections=True)
     node.tbl.centroid = centroid(node.tbl, selections=True)
   for node1 in dtnodes(tree):
@@ -345,17 +278,10 @@ def snakesAndLadders(tree, train, w):
   for node1 in dtnodes(tree):
     # sorted in reverse order of distance
     node1.far = sorted(node1.far,
-<<<<<<< HEAD
-                        key=lambda x: first(x))
-    # at end of this loop, the last ladder, snakes are closest
-    for _, node2 in node1.far:
-      delta = prefer(node2.branch, node1.branch, key=lambda x:x.col)
-=======
                        key=lambda x: first(x))
     # at end of this loop, the last ladder, snakes are closest
     for _, node2 in node1.far:
       delta = prefer(node2.branch, node1.branch, key=lambda x: x.col)
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
       if delta:
         if score(node2) > score(node1):
           node1.ladder = node2
@@ -408,16 +334,11 @@ ninf = float("-inf")
 
 @demo
 def snl(file='data/poi-1.5D.csv', rseed=1, w=dict(_1=0, _0=1)):
-<<<<<<< HEAD
-  def klass(x): return x.cells[train.klass[0].col]
-  def val((x, y)):
-=======
   def klass(x):
     return x.cells[train.klass[0].col]
 
   def val(xxx_todo_changeme):
     (x, y) = xxx_todo_changeme
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
     return y if x == ninf else x
   seed(rseed)
   nl()
@@ -432,22 +353,6 @@ def snl(file='data/poi-1.5D.csv', rseed=1, w=dict(_1=0, _0=1)):
   abcd4 = Abcd(db=file, rx="dt")
   abcd5 = Abcd(db=file, rx="nb")
   for tests, train in xval(tbl):
-<<<<<<< HEAD
-     learns(tests, train._rows,
-            indep=lambda row: map(val, row.cells[:-2]),
-            dep=lambda row: row.cells[-1],
-            rf=abcd2,
-            lg=abcd3,
-            dt=abcd4,
-            nb=abcd5),
-     tree = tdiv(train)
-     snakesAndLadders(tree, train, w)
-     for test in tests:
-       abcd1(actual=klass(test),
-            predicted=classify(test, tree))
-       a, b = improve(test, tree); old + a; better + b
-       _, c = degrade(test, tree);          worse + c
-=======
     learns(tests, train._rows,
            indep=lambda row: map(val, row.cells[:-2]),
            dep=lambda row: row.cells[-1],
@@ -465,7 +370,6 @@ def snl(file='data/poi-1.5D.csv', rseed=1, w=dict(_1=0, _0=1)):
       better + b
       _, c = degrade(test, tree)
       worse + c
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
   print "\n:asIs", old.counts
   print ":plan", better.counts
   print ":warn", worse.counts
@@ -478,17 +382,6 @@ def snl(file='data/poi-1.5D.csv', rseed=1, w=dict(_1=0, _0=1)):
 
 
 def plot(x, y, title, xlabel, ylabel, fname):
-<<<<<<< HEAD
- import matplotlib.mlab as mlab
- import matplotlib.pyplot as plt
- plt.plot(x, y)
- plt.xlabel(xlabel)
- plt.ylabel(ylabel)
- plt.title(title)
- plt.subplots_adjust(left=0.15)
- plt.savefig(fname + '.jpg')
- plt.close()
-=======
   import matplotlib.mlab as mlab
   import matplotlib.pyplot as plt
   plt.plot(x, y)
@@ -498,7 +391,6 @@ def plot(x, y, title, xlabel, ylabel, fname):
   plt.subplots_adjust(left=0.15)
   plt.savefig(fname + '.jpg')
   plt.close()
->>>>>>> 222a216eb9cc072796a1609fcfaf644b080554c9
 # cross()
 if __name__ == '__main__':
   eval(cmd())
