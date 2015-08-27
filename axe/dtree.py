@@ -67,12 +67,13 @@ def tdiv1(t, rows, lvl=-1, asIs=10 ** 32, up=None, features=None, branch=[],
     someRows = splits[key]
     toBe = syms[key].ent()
     if opt.variancePrune and lvl > 1 and toBe >= asIs:
-        continue
-    if opt.min <= len(someRows) < len(rows) :
+      continue
+    if opt.min <= len(someRows) < len(rows):
       here.kids += [tdiv1(t, someRows, lvl=lvl + 1, asIs=toBe, features=features,
                           up=here, f=splitter,
                           val=key, branch=branch + [(splitter, key)], opt=opt)]
   return here
+
 
 def tdiv(tbl, rows=None, opt=The.tree):
   opt = The.tree if not opt else opt
@@ -110,6 +111,7 @@ def classStats(n):
   depen = lambda x: x.cells[n.t.klass[0].col]
   return Sym(depen(x) for x in n.rows)
 
+
 def showTdiv(n, lvl=-1):
   if n.f:
     say(('|..' * lvl) + str(n.f.name) + "=" + str(n.val) +
@@ -121,6 +123,7 @@ def showTdiv(n, lvl=-1):
   else:
     s = classStats(n)
     print ' ' + str(int(100 * s.counts[s.mode()] / len(n.rows))) + '% * ' + str(len(n.rows))
+
 
 def dtnodes(tree, lvl=0):
   if tree:
@@ -177,7 +180,7 @@ def apex(test, tree, opt=The.tree):
     else:
       if isinstance(span, tuple):
         lo, hi = span
-        return lo <= val < hi  # <hi
+        return lo <= val <= hi  # <hi
       else:
         return span == val
 
@@ -235,6 +238,7 @@ def jump(test, tree, how, opt=The.tree):
       copy[col] = val
     toBe = apex(Row(copy), tree, opt)
   return asIs, toBe
+
 
 def rows1(row, tbl, cells=lambda r: r.cells):
   print ""

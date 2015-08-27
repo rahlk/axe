@@ -549,7 +549,7 @@ Driver for the demos:
 """
 
 
-def rdivDemo(data, isLatex=False):
+def rdivDemo(data, isLatex=False, globalMinMax=True, high=100, low=0):
   if isLatex:
     #     print(r"""\documentclass{article}
     #     \usepackage{colortbl} % not sure if needed
@@ -561,7 +561,7 @@ def rdivDemo(data, isLatex=False):
     #     \begin{document}
     #     """)
     def z(x):
-      return int(50 * (x - lo) / (hi - lo + 0.00001))
+      return int(80 * (x - lo) / (hi - lo + 0.00001))
     data = map(lambda lst: Num(lst[0], lst[1:]),
                data)
     print ""
@@ -572,7 +572,10 @@ def rdivDemo(data, isLatex=False):
     for _, __, x in sorted(ranks):
       all += x.quartiles()
     all = sorted(all)
-    lo, hi = all[0], all[-1]
+    if globalMinMax:
+      lo, hi = min(low, all[0]), max(all[-1], high)
+    else:
+      lo, hi = all[0], all[-1]
     print r'{\scriptsize \begin{tabular}{l@{~~~}l@{~~~}r@{~~~}r@{~~~}c}'
     print r'\arrayrulecolor{lightgray}'
     # min= %s, max= %s\\\\' % (int(lo),int(hi))
@@ -611,7 +614,10 @@ def rdivDemo(data, isLatex=False):
     for _, __, x in sorted(ranks):
       all += x.all
     all = sorted(all)
-    lo, hi = all[0], all[-1]
+    if globalMinMax:
+      lo, hi = min(low, all[0]), max(all[-1], high)
+    else:
+      lo, hi = all[0], all[-1]
     line = "----------------------------------------------------"
     last = None
     print ('%4s , %12s ,    %s   , %4s ' %
